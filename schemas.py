@@ -6,7 +6,6 @@ from models import MonthEnum, ExpenseCategoryEnum
 
 
 class UserBase(BaseModel):
-    id: str
     first_name: str = Field(min_length=3, max_length=100)
     last_name: str = Field(min_length=3, max_length=100)
     username: str = Field(min_length=3, max_length=100)
@@ -24,6 +23,7 @@ class TrackerPublic(BaseModel):
 
 
 class UserResponse(UserBase):
+    id: str
     trackers: List[TrackerPublic]
 
     model_config = ConfigDict(from_attributes=True)

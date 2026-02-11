@@ -26,18 +26,23 @@ class TrackerPublic(BaseModel):
 class UserResponse(UserBase):
     trackers: List[TrackerPublic]
 
+    model_config = ConfigDict(from_attributes=True)
 
-class TrackerCreate(BaseModel):
+
+class TrackerBase(BaseModel):
     month: MonthEnum
     budget: int
     expense_type: List[ExpenseCategoryEnum]
 
 
-class TrackerResponse(BaseModel):
+class TrackerCreate(TrackerBase):
+    pass
+
+
+class TrackerResponse(TrackerBase):
     id: str
-    month: MonthEnum
-    budget: int
-    expense_type: List[ExpenseCategoryEnum]
     total_expense: int
     total_save: int
     created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

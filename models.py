@@ -1,8 +1,9 @@
 import uuid
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, String, Integer, Enum as SQLAEnum
+from sqlalchemy import ForeignKey, String, Integer, Enum as SQLAEnum, DateTime
 from enum import Enum
+from datetime import datetime, timezone
 
 from database import Base
 
@@ -54,10 +55,13 @@ class Tracker(Base):
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
     month: Mapped[MonthEnum] = mapped_column(SQLAEnum(MonthEnum), nullable=False)
     budget: Mapped[int] = mapped_column(Integer, nullable=False)
-    expense_type: Mapped[ExpenseCategoryEnum] = mapped_column(
+    expense_type: Mapped[List[ExpenseCategoryEnum]] = mapped_column(
         SQLAEnum(ExpenseCategoryEnum), nullable=False
     )
     total_expense: Mapped[int] = mapped_column(Integer, nullable=False)
     total_save: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
     user: Mapped[User] = relationship("User", back_populates="trackers")

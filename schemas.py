@@ -22,6 +22,12 @@ class TrackerPublic(BaseModel):
     save_expense: int
 
 
+class UserCreateResponse(UserBase):
+    id: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class UserResponse(UserBase):
     id: str
     trackers: List[TrackerPublic]

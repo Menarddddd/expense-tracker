@@ -30,9 +30,16 @@ class UserCreateResponse(UserBase):
 
 class UserResponse(UserBase):
     id: str
+    password: str
     trackers: List[TrackerPublic]
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class UserUpdate(BaseModel):
+    first_name: str | None = Field(min_length=3, max_length=100)
+    last_name: str | None = Field(min_length=3, max_length=100)
+    username: str | None = Field(min_length=3, max_length=100)
 
 
 class TrackerBase(BaseModel):
@@ -52,3 +59,8 @@ class TrackerResponse(TrackerBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class AccessToken(BaseModel):
+    access_token: str
+    token_type: str
